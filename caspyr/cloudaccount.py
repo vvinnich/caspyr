@@ -305,6 +305,96 @@ class CloudAccountvSphere(Base):
         pass
 
 
+class CloudAccountVmc(Base):
+
+    @classmethod
+    def list(cls, session):
+        uri = '/iaas/cloud-accounts-vmc'
+        return super().list(session, uri)
+
+    @classmethod
+    def describe(cls, session, cloud_account_id):
+        uri = f'/iaas/cloud-accounts-vmc/{cloud_account_id}'
+        return super().describe(session, uri)
+
+    @classmethod
+    def unregister(cls, session, cloud_account_id):
+        uri = f'/iaas/cloud-accounts-vmc/{cloud_account_id}'
+        return super().unregister(session, uri)
+
+    @classmethod
+    def delete(cls, session, cloud_account_id):
+        uri = f'/api/cloud-accounts/{cloud_account_id}'
+        return super().delete(session, uri)
+
+    @classmethod
+    def create(cls,
+               session,
+               name,
+               fqdn,
+               api_key,
+               nsx_host_name,
+               sddc_id,
+               dcid,
+               username,
+               password,
+               datacenter_moid,
+               nsx_cloud_account=None,
+               description=None
+               ):
+        """[summary]
+
+        :param session: [description]
+        :type session: [type]
+        :param name: [description]
+        :type name: [type]
+        :param api_key: [description]
+        :type api_key: [type]
+        :param nsx_host_name: [description]
+        :type nsx_host_name: [type]
+        :param sddc_id: [description]
+        :type sddc_id: [type]
+        :param fqdn: [description]
+        :type fqdn: [type]
+        :param dcid: [description]
+        :type dcid: [type]
+        :param username: [description]
+        :type username: [type]
+        :param password: [description]
+        :type password: [type]
+        :param datacenter_moid: [description]
+        :type datacenter_moid: [type]
+        :param nsx_cloud_account: [description], defaults to None
+        :param nsx_cloud_account: [type], optional
+        :param description: [description], defaults to None
+        :param description: [type], optional
+        :return: [description]
+        :rtype: [type]
+        """
+
+        uri = '/iaas/cloud-accounts-vmc'
+        payload = {
+            "name": name,
+            "description": description,
+            "hostName": fqdn,
+            "acceptSelfSignedCertificate": True,
+            "apiKey": api_key,
+            "nsxHostName": nsx_host_name,
+            "associatedCloudAccountIds": nsx_cloud_account,
+            "sddcId": sddc_id,
+            "dcid": dcid,
+            "username": username,
+            "password": password,
+            "regionIds": datacenter_moid,
+            "createDefaultZones": False
+        }
+        return cls(super().create(session, uri=uri, payload=payload))
+
+    @classmethod
+    def update(cls):
+        pass
+
+
 class CloudAccountNSXT(Base):
 
     @classmethod
